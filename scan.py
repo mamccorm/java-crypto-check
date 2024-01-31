@@ -5,7 +5,7 @@ import argparse
 # Define patterns for detecting non-FIPS compliant algorithms, weak key lengths,
 # and RNGs.
 non_fips_patterns = {
-    'algorithms': [r'MD5', r'SHA1', r'DES', r'RC4'],
+    'algorithms': [r'MD2', r'MD5', r'SHA1', r'DES', r'RC4'],
     'key_lengths': [
         # Tuple format: (Algorithm, Minimum Key Length)
         (r'AES', 128),
@@ -61,6 +61,19 @@ def search_crypto_usage(repo_path, crypto_libs, non_fips_patterns):
                 file_path = os.path.join(root, file)
                 check_file_content(file_path, crypto_libs, non_fips_patterns)
 
+def search_for_fips_references(repo_path):
+    """
+    Search for 'FIPS' references in code and documentation files.
+    """
+    for root, _, files in os.walk(repo_path):
+        for file in files:
+            if file.endswith(('.java', '.txt', '.md', '.doc', '.docx')):
+                file_path = os.path.join(root, file)
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    content = file.read()
+                    if re.search(r'\bFIPS\b', content, re.IGNORECASE):
+                        print(f"Found 'FIPS' reference in {file_path}")
+
 def main():
     """
     Parse command-line arguments for the repository path, then initiate
@@ -81,6 +94,7 @@ def main():
     ]
 
     search_crypto_usage(args.repo_path, crypto_libs, non_fips_patterns)
+    search_for_fips_references(args.repo_path)
 
 if __name__ == '__main__':
     main()
