@@ -13,6 +13,24 @@ non_fips_patterns = {
     'rngs': [r'java\.util\.Random'],  # Non-secure RNG
 }
 
+# List of cryptographic package names/patterns to search for
+crypto_libs = [
+    r'javax\.crypto\..*',
+    r'org\.apache\.commons\.codec\..*',
+    r'commons-codec',
+    r'org\.jasypt\..*',
+    r'com\.google\.crypto\.tink\..*',
+    r'keyczar\..*',
+    r'org\.bouncycastle\..*',
+    r'libsodium',
+    r'com\.nimbusds\..*',
+    r'org\.apache\.commons\.crypto\..*',
+    r'com\.neilalexander\.jnacl\..*',
+    r'io\.netty\.handler\.ssl\..*',
+    r'com\.wolfssl\..*',
+    r'sun\.security\..*'
+]
+
 def check_file_content(file_path, crypto_libs, non_fips_patterns):
     """
     Check the content of a given file for usage of specified cryptographic
@@ -59,20 +77,15 @@ def search_crypto_usage(repo_path, crypto_libs, non_fips_patterns):
         for file in files:
             if file.endswith('.java'):
                 file_path = os.path.join(root, file)
-                check_file_content(file_path, crypto_libs, non_fips_patterns)
+                # Check for cryptographic library usage in Java files
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    for lib_pattern in crypto_libs:
+                        if re.search(lib_pattern, content):
+                            print(f"Found usage of {lib_pattern} in {file_path}")
 
-def search_for_fips_references(repo_path):
-    """
-    Search for 'FIPS' references in code and documentation files.
-    """
-    for root, _, files in os.walk(repo_path):
-        for file in files:
-            if file.endswith(('.java', '.txt', '.md', '.doc', '.docx')):
-                file_path = os.path.join(root, file)
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    content = file.read()
-                    if re.search(r'\bFIPS\b', content, re.IGNORECASE):
-                        print(f"Found 'FIPS' reference in {file_path}")
+                # Continue with other checks for non-FIPS compliant patterns
+                check_file_content(file_path, crypto_libs, non_fips_patterns)
 
 def main():
     """
@@ -80,22 +93,14 @@ def main():
     the search for cryptographic usage and compliance checks.
     """
     parser = argparse.ArgumentParser(
-        description='Detect cryptographic library usage and non-FIPS compliant'
-                    ' practices in a Java Git repository.'
+        description='Detect cryptographic library usage and non-FIPS compliant practices in a Java Git repository.'
     )
-    parser.add_argument('repo_path', type=str,
-                        help='Path to the root directory of the Git repository')
+    parser.add_argument('repo_path', type=str, help='Path to the root directory of the Git repository')
     
     args = parser.parse_args()
 
-    # Placeholder for cryptographic library patterns
-    crypto_libs = [
-        # Add your crypto library patterns here
-    ]
-
+    # Start the search for cryptographic usage and FIPS references
     search_crypto_usage(args.repo_path, crypto_libs, non_fips_patterns)
-    search_for_fips_references(args.repo_path)
 
 if __name__ == '__main__':
     main()
-
