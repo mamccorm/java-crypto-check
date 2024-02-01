@@ -4,7 +4,7 @@
 > TREAT THIS AS AN AUTHORATIVE SOURCE OF TRUTH.
 
 A python script which scans a Java applications source code, to look for usage
-of bundled crypto libraries, as well as crypto algorithms not permitted under
+of bundled crypto librarys, as well as crypto algorithms not permitted under
 FIPS 140-2.
 
 The purpose of this script is to aid decision making when determining if a Java
@@ -27,12 +27,12 @@ as well as a summary:
 # ...
 
 Detailed Summary of Detections:
-  - 31 instances of librarie: javax.crypto
-  - 2 instances of librarie: apache commons codec
-  - 18 instances of librarie: bouncy castle
-  - 3 instances of potential non-permitted algorithm: md5
-  - 30 instances of potential non-permitted algorithm: sha1
-  - 119 instances of potential non-permitted algorithm: des
+  - 31 instance(s) of library: javax.crypto
+  - 2 instance(s) of library: apache commons codec
+  - 18 instance(s) of library: bouncyCastle
+  - 3 instance(s) of potential non-permitted algorithm: md5
+  - 30 instance(s) of potential non-permitted algorithm: sha1
+  - 119 instance(s) of potential non-permitted algorithm: des
 
 Excluded file patterns: *Test.java, *SmokeTest*
 ```
