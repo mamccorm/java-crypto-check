@@ -27,12 +27,13 @@ as well as a summary:
 # ...
 
 Detailed Summary of Detections:
-  - 31 instance(s) of library: javax.crypto
-  - 2 instance(s) of library: apache commons codec
-  - 18 instance(s) of library: bouncyCastle
-  - 3 instance(s) of potential non-permitted algorithm: md5
-  - 30 instance(s) of potential non-permitted algorithm: sha1
-  - 119 instance(s) of potential non-permitted algorithm: des
+  - 48 instance(s) of: javax.crypto
+  - 49 instance(s) of: apache commons codec
+  - 6 instance(s) of: bouncy castle
+  - 88 instance(s) of: md5
+  - 12 instance(s) of: sha1
+  - 365 instance(s) of: des
+  - 3 instance(s) of: rc4
 
 Excluded file patterns: *Test.java, *SmokeTest*
 ```

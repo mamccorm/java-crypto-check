@@ -61,8 +61,8 @@ def summarize_findings(findings):
         for name, paths in items.items():
             if paths:
                 # Customize the description for algorithms to indicate potential non-compliance
-                display_name = f"Potential Non-Permitted Algorithm: {name}" if category == "Algorithms" else f"{category[:-1]}: {name}"
-                summary_parts.append(f"- {len(paths)} instance(s) of {display_name.lower()}")
+                display_name = f"{name}" if category == "Algorithms" else f"{name}"
+                summary_parts.append(f"- {len(paths)} instance(s) of: {display_name.lower()}")
 
     if len(summary_parts) == 1:  # Only the header exists, no findings
         return "No detections found."
