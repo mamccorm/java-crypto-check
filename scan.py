@@ -6,13 +6,14 @@ import argparse
 # Define patterns for detecting non-FIPS compliant algorithms, weak key lengths, and RNGs.
 non_fips_patterns = {
     'algorithms': {
-        'MD2': r'MD2',
-        'MD5': r'MD5',
-        'SHA1': r'SHA1',
-        'DES': r'DES',
-        'RC4': r'RC4',
+        'MD2': r'[\'"]MD2',
+        'MD5': r'[\'"]MD5',
+        'SHA1': r'[\'"]SHA1',
+        'DES': r'[\'"]DES[\'"/]',
+        '3DES': r'[\'"]DESede',
+        'RC4': r'[\'"]RC4',
     },
-    'key_lengths': [(r'AES', 128)],
+    'key_lengths': [(r'[\'"]AES[\'"/]', 128)],
     'rngs': [r'java\.util\.Random'],
 }
 
